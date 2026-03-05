@@ -1,12 +1,12 @@
-import { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import api from '../components/api';
 
 export default function Review() {
   const { questionnaireId } = useParams();
   const [answers, setAnswers] = useState([]);
   const [editing, setEditing] = useState({});
-  const [saved, setSaved] = useState({});
+  const [, setSaved] = useState({});
   const navigate = useNavigate();
 
   useEffect(() => { fetchAnswers(); }, []);
