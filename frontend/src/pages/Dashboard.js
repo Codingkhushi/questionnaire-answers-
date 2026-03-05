@@ -12,23 +12,22 @@ export default function Dashboard() {
   const pollRef = useRef(null);
 
   useEffect(() => {
+    const fetchDocs = async () => {
+      try {
+        const res = await api.get('/documents');
+        // Show only latest upload per filename
+        const seen = new Set();
+        const unique = res.data.filter(d => {
+          if (seen.has(d.filename)) return false;
+          seen.add(d.filename);
+          return true;
+        });
+        setDocs(unique);
+      } catch {}
+    };
     fetchDocs();
     return () => clearInterval(pollRef.current);
   }, []);
-
-  const fetchDocs = async () => {
-    try {
-      const res = await api.get('/documents');
-      // Show only latest upload per filename
-      const seen = new Set();
-      const unique = res.data.filter(d => {
-        if (seen.has(d.filename)) return false;
-        seen.add(d.filename);
-        return true;
-      });
-      setDocs(unique);
-    } catch {}
-  };
 
   const uploadDoc = async (e) => {
     const file = e.target.files[0];

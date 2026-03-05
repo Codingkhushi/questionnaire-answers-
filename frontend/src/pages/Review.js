@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import api from '../components/api';
 
@@ -6,6 +6,7 @@ export default function Review() {
   const { questionnaireId } = useParams();
   const [answers, setAnswers] = useState([]);
   const [editing, setEditing] = useState({});
+  const [saved, setSaved] = useState({});
   const navigate = useNavigate();
 
   const fetchAnswers = useCallback(async () => {
@@ -13,7 +14,9 @@ export default function Review() {
     setAnswers(res.data);
   }, [questionnaireId]);
 
-  useEffect(() => { fetchAnswers(); }, [fetchAnswers]);
+  useEffect(() => { 
+    fetchAnswers(); 
+  }, [fetchAnswers]);
 
   const startEdit = (answerId, currentText) => {
     setEditing(prev => ({ ...prev, [answerId]: currentText }));
