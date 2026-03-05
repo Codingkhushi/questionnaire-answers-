@@ -6,15 +6,14 @@ export default function Review() {
   const { questionnaireId } = useParams();
   const [answers, setAnswers] = useState([]);
   const [editing, setEditing] = useState({});
-  const [, setSaved] = useState({});
   const navigate = useNavigate();
 
-  useEffect(() => { fetchAnswers(); }, []);
-
-  const fetchAnswers = async () => {
+  const fetchAnswers = useCallback(async () => {
     const res = await api.get(`/generate/answers/${questionnaireId}`);
     setAnswers(res.data);
-  };
+  }, [questionnaireId]);
+
+  useEffect(() => { fetchAnswers(); }, [fetchAnswers]);
 
   const startEdit = (answerId, currentText) => {
     setEditing(prev => ({ ...prev, [answerId]: currentText }));
