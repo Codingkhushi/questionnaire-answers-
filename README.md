@@ -1,4 +1,4 @@
-# NovaSec Questionnaire Answering Tool
+# Questionnaire Answering Tool
 
 ## What I Built
 An AI-powered tool that automates vendor security questionnaire completion 
