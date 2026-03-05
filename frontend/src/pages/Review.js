@@ -6,7 +6,6 @@ export default function Review() {
   const { questionnaireId } = useParams();
   const [answers, setAnswers] = useState([]);
   const [editing, setEditing] = useState({});
-  const [saved, setSaved] = useState({});
   const navigate = useNavigate();
 
   const fetchAnswers = useCallback(async () => {
@@ -25,7 +24,6 @@ export default function Review() {
   const saveEdit = async (answerId) => {
     try {
       await api.put(`/generate/answers/${answerId}`, { answer_text: editing[answerId] });
-      setSaved(prev => ({ ...prev, [answerId]: true }));
       setEditing(prev => { const n = { ...prev }; delete n[answerId]; return n; });
       fetchAnswers();
     } catch { alert('Save failed'); }
