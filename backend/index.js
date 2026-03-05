@@ -4,8 +4,10 @@ require('dotenv').config();
 
 const app = express();
 app.use(cors({
-  origin: ['http://localhost:3000',
+  origin: [
+    'http://localhost:3000',
     'https://questionnaire-answers-2.onrender.com',
+    'https://questionnaire-answers.vercel.app'
   ],
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
