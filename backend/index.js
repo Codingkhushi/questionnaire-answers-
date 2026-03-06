@@ -7,6 +7,7 @@ app.use(cors({
   origin: [
     'http://localhost:3000',
     'https://questionnaire-answers-2.onrender.com',
+    'https://questionnaire-answers-mmur.vercel.app',
     'https://questionnaire-answers.vercel.app'
   ],
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
