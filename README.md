@@ -5,6 +5,14 @@ An AI-powered tool that automates vendor security questionnaire completion
 using RAG (Retrieval-Augmented Generation). Users upload reference documents 
 and a questionnaire, and the system generates grounded answers with citations.
 
+
+
+https://github.com/user-attachments/assets/580b9445-02a9-4118-b01c-7382b4d98358
+
+
+
+
+
 ## Fictional Company
 **NovaSec Inc.** — A B2B SaaS company providing cloud-based endpoint security 
 and threat monitoring for mid-sized enterprises. Clients regularly send vendor 
