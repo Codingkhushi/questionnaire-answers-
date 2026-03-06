@@ -3,6 +3,12 @@ const cors = require('cors');
 require('dotenv').config();
 
 const app = express();
+
+app.use((req, res, next) => {
+  console.log(`${new Date().toISOString()} - ${req.method} ${req.url}`);
+  next();
+});
+
 const allowedOrigins = [
   'http://localhost:3000',
   'https://questionnaire-answers-2.onrender.com',
@@ -33,6 +39,16 @@ app.use('/api/documents', require('./src/routes/documents'));
 app.use('/api/questionnaire', require('./src/routes/questionnaire'));
 app.use('/api/generate', require('./src/routes/generate'));
 app.use('/api/export', require('./src/routes/export'));
+
+app.get('/api/debug-db', async (req, res) => {
+  try {
+    const time = await pool.query('SELECT NOW()');
+    const tables = await pool.query("SELECT table_name FROM information_schema.tables WHERE table_schema = 'public'");
+    res.json({ status: 'connected', time: time.rows[0], tables: tables.rows.map(r => r.table_name) });
+  } catch (err) {
+    res.status(500).json({ error: err.message, stack: err.stack });
+  }
+});
 
 // Global error handler
 app.use((err, req, res, next) => {

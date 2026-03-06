@@ -14,6 +14,9 @@ const upload = multer({ storage });
 // Upload a reference document
 router.post('/upload', auth, upload.single('file'), async (req, res) => {
   try {
+    console.log('Upload Request — File:', req.file);
+    if (!req.file) return res.status(400).json({ error: 'No file uploaded' });
+
     const { originalname, path: filePath } = req.file;
 
     const result = await pool.query(
@@ -22,13 +25,11 @@ router.post('/upload', auth, upload.single('file'), async (req, res) => {
     );
     const doc = result.rows[0];
 
-    // Return immediately, process in background
     res.json({ docId: doc.id, status: 'processing', filename: originalname });
 
-    // Background processing - don't await
     processDocument(doc.id, req.user.id, filePath, originalname);
-
   } catch (err) {
+    console.error('UPLOAD ERROR:', err);
     res.status(500).json({ error: err.message });
   }
 });
