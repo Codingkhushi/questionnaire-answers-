@@ -12,11 +12,13 @@ const allowedOrigins = [
 
 app.use(cors({
   origin: (origin, callback) => {
+    console.log('Incoming origin:', origin);
     // Allow requests with no origin (like mobile apps or curl)
     if (!origin) return callback(null, true);
     if (allowedOrigins.indexOf(origin) !== -1 || origin.endsWith('.vercel.app')) {
       callback(null, true);
     } else {
+      console.error('CORS blocked for origin:', origin);
       callback(new Error('Not allowed by CORS'));
     }
   },
@@ -31,6 +33,12 @@ app.use('/api/documents', require('./src/routes/documents'));
 app.use('/api/questionnaire', require('./src/routes/questionnaire'));
 app.use('/api/generate', require('./src/routes/generate'));
 app.use('/api/export', require('./src/routes/export'));
+
+// Global error handler
+app.use((err, req, res, next) => {
+  console.error('SERVER ERROR:', err.stack);
+  res.status(500).json({ error: 'Internal Server Error' });
+});
 
 app.listen(process.env.PORT, () => {
   console.log(`Server running on port ${process.env.PORT}`);
